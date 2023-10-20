@@ -9,18 +9,18 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        // Listar todas as empresas
         $empresas = Empresa::with('contatos')->get();
         return response()->json($empresas);
     }
 
     public function show($id)
     {
-        // Exibir uma empresa específica por ID
-        $empresa = Empresa::find($id)::with('contatos')->get();
+        $empresa = Empresa::with('contatos')->find($id);
+
         if (!$empresa) {
             return response()->json(['message' => 'Empresa não encontrada'], 404);
         }
+
         return response()->json($empresa);
     }
 

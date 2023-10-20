@@ -9,18 +9,18 @@ class ContatoController extends Controller
 {
     public function index()
     {
-        // Listar todos os contatos
         $contatos = Contato::with('empresa')->get();
         return response()->json($contatos);
     }
 
     public function show($id)
     {
-        // Exibir um contato específico por ID
-        $contato = Contato::find($id)::with('empresa')->get();
+        $contato = Contato::with('empresa')->find($id);
+
         if (!$contato) {
-            return response()->json(['message' => 'Contato não encontrado'], 404);
+            return response()->json(['message' => 'Contato não encontrado.'], 404);
         }
+
         return response()->json($contato);
     }
 
@@ -52,7 +52,7 @@ class ContatoController extends Controller
         $data = $request->validate([
             'nome' => 'required',
             'sobrenome' => 'required',
-            'data_nascimento' => 'date',
+            'data_nascimento' => 'string',
             'telefone' => 'string',
             'celular' => 'string',
             'email' => 'email',
